@@ -11,7 +11,7 @@ const Navbar = () => {
   );
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-5
+  
   return (
     <div className='flex items-center justify-between bg-white px-4 py-3 dark:bg-black dark:px-4 dark:py-3'>
       {/* Search Bar */}
@@ -51,7 +51,7 @@ const Navbar = () => {
             : `h-min w-min rounded p-2 hover:bg-gray-100`}>
           <Settings className="h-6 w-6 cursor-pointer dark:text-white" />
         </Link>
-        <div className='ml-2 mr-5 hidden min-h-[2em] w-[0.1rem] bg-gray-200 md-inline-block'></div>
+        <div className='ml-2 mr-5 hidden min-h-[2rem] w-[0.1rem] bg-gray-200 md-inline-block'></div>
       </div>
     </div>
   )

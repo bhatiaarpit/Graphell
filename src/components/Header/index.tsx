@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from "react";
+import React, { ReactNode } from "react";
 
 type Props = {
   name: string;
-  buttonComponent?: any;
+  buttonComponent?: ReactNode;
   isSmallText?: boolean;
 };
 

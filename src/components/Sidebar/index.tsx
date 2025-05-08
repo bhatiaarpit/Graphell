@@ -1,10 +1,11 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/state";
-// import { useGetAuthUserQuery, useGetProjectsQuery } from "@/state/api";
+import { useGetProjectsQuery } from "@/state/api";
 // import { signOut } from "aws-amplify/auth";
 import {
   AlertCircle,
+  AlertOctagon,
   AlertTriangle,
   Briefcase,
   ChevronDown,
@@ -28,13 +29,15 @@ import React, { useState } from "react";
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
+
+  const { data: projects } = useGetProjectsQuery();
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector((state) => state.global.isSidebarCollapsed);
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode); // Get dark mode state
 
   const sidebarClassNames = `fixed flex flex-col h-[100%] justify-between shadow-xl transition-all duration-300 z-40 dark:bg-black overflow-y-auto bg-white ${
     isSidebarCollapsed ? "w-0 hidden" : "w-64"
-  }`;
+  } custom-scrollbar`;
 
   return (
     <div className={sidebarClassNames}>
@@ -96,7 +99,8 @@ const Sidebar = () => {
           )}
         </button>
         {/* PROJECTS LIST */}
-        {/* {showProjects &&
+        
+        {showProjects &&
           projects?.map((project) => (
             <SidebarLink
               key={project.id}
@@ -104,8 +108,7 @@ const Sidebar = () => {
               label={project.name}
               href={`/projects/${project.id}`}
             />
-          ))} */}
-
+          ))}
 
         {/* PRIORITIES LINKS */}
         <button
@@ -145,6 +148,37 @@ const Sidebar = () => {
           </>
         )}
       </div>
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(100, 100, 100, 0.5);
+          border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(100, 100, 100, 0.7);
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background-color: rgba(200, 200, 200, 0.2);
+          border-radius: 4px;
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: rgba(150, 150, 150, 0.5);
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background-color: rgba(150, 150, 150, 0.7);
+        }
+
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+          background-color: rgba(50, 50, 50, 0.2);
+        }
+      `}</style>
     </div>
   );
 };
@@ -153,7 +187,7 @@ interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
   label: string;
-  isCollapsed: boolean;
+  isCollapsed?: boolean;
 }
 interface SidebarLinkProps {
   href: string;

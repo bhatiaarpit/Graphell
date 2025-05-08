@@ -5,7 +5,6 @@ import { setIsSidebarCollapsed } from "@/state";
 // import { signOut } from "aws-amplify/auth";
 import {
   AlertCircle,
-  AlertOctagon,
   AlertTriangle,
   Briefcase,
   ChevronDown,

@@ -7,12 +7,16 @@ import List from "../ListView";
 import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
+import { FC } from "react";
 
-type Props = {
-  params: { id: string };
+
+type PageProps = {
+  params: {
+    id: string;
+  };
 };
 
-const Project = ({ params }: Props) => {
+const Project: FC<PageProps> = ({ params }) => {
   const { id } = params;
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
@@ -22,7 +26,7 @@ const Project = ({ params }: Props) => {
       <ModalNewTask
         isOpen={isModalNewTaskOpen}
         onClose={() => setIsModalNewTaskOpen(false)}
-        id={"id"}
+        id={id}
       />
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === "Board" && (

@@ -19,7 +19,7 @@ type ProjectProps = {
   searchParams: Record<string, string | string[] | undefined>;
 };
 
-const Project = ({ params, searchParams }: ProjectProps) => {
+const Project = ({ params }: ProjectProps) => {
   const { id } = params;
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);

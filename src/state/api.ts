@@ -79,9 +79,9 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers) => {
       const session = await fetchAuthSession();
-      // Using token but not storing it in a variable since it's used right away
-      if (session.tokens?.accessToken) {
-        headers.set("Authorization", `Bearer ${session.tokens.accessToken}`);
+      const { accessToken } = session.tokens ?? {};
+      if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
       }
       return headers;
     },
@@ -96,15 +96,14 @@ export const api = createApi({
           const session = await fetchAuthSession();
           if (!session) throw new Error("No session found");
           const { userSub } = session;
+          const { accessToken } = session.tokens ?? {};
 
           const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);
           const userDetails = userDetailsResponse.data as User;
 
           return { data: { user, userSub, userDetails } };
-        } catch (error) {
-          // Type the error properly
-          const err = error as Error;
-          return { error: err.message || "Could not fetch user data" };
+        } catch (error: any) {
+          return { error: error.message || "Could not fetch user data" };
         }
       },
     }),

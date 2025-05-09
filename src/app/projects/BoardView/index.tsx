@@ -6,7 +6,6 @@ import { Task as TaskType } from "@/state/api";
 import { EllipsisVertical, MessageSquareMore, Plus } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
-import { DropTargetMonitor, DragSourceMonitor } from "react-dnd";
 
 type BoardProps = {
   id: string;
@@ -63,14 +62,14 @@ const TaskColumn = ({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
     drop: (item: { id: number }) => moveTask(item.id, status),
-    collect: (monitor: DropTargetMonitor) => ({
+    collect: (monitor: any) => ({
       isOver: !!monitor.isOver(),
     }),
   }));
 
   const tasksCount = tasks.filter((task) => task.status === status).length;
 
-  const statusColor: Record<string, string> = {
+  const statusColor: any = {
     "To Do": "#2563EB",
     "Work In Progress": "#059669",
     "Under Review": "#D97706",
@@ -79,12 +78,14 @@ const TaskColumn = ({
 
   return (
     <div
-      ref={drop}
+      ref={(instance) => {
+        drop(instance);
+      }}
       className={`sl:py-4 rounded-lg py-2 xl:px-2 ${isOver ? "bg-blue-100 dark:bg-neutral-950" : ""}`}
     >
       <div className="mb-3 flex w-full">
         <div
-          className="w-2 rounded-s-lg"
+          className={`w-2 !bg-[${statusColor[status]}] rounded-s-lg`}
           style={{ backgroundColor: statusColor[status] }}
         />
         <div className="flex w-full items-center justify-between rounded-e-lg bg-white px-5 py-4 dark:bg-dark-secondary">
@@ -128,7 +129,7 @@ const Task = ({ task }: TaskProps) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
-    collect: (monitor: DragSourceMonitor) => ({
+    collect: (monitor: any) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
@@ -164,7 +165,9 @@ const Task = ({ task }: TaskProps) => {
 
   return (
     <div
-      ref={drag}
+      ref={(instance) => {
+        drag(instance);
+      }}
       className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${
         isDragging ? "opacity-50" : "opacity-100"
       }`}
@@ -183,9 +186,9 @@ const Task = ({ task }: TaskProps) => {
           <div className="flex flex-1 flex-wrap items-center gap-2">
             {task.priority && <PriorityTag priority={task.priority} />}
             <div className="flex gap-2">
-              {taskTagsSplit.map((tag, index) => (
+              {taskTagsSplit.map((tag) => (
                 <div
-                  key={`${tag}-${index}`}
+                  key={tag}
                   className="rounded-full bg-blue-100 px-2 py-1 text-xs"
                 >
                   {" "}

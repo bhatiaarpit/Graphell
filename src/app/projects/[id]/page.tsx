@@ -8,11 +8,22 @@ import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
 
-interface ProjectClientProps {
-  id: string;
+// Use the correct type for props in a client component with dynamic route
+interface PageProps {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-const ProjectClient = ({ id }: ProjectClientProps) => {
+// Use this wrapper to handle proper typing with App Router
+export default function Page(props: PageProps) {
+  // Extract the id manually from props
+  const id = props.params.id;
+  
+  return <ProjectContent id={id} />;
+}
+
+// Internal component that contains your original code
+function ProjectContent({ id }: { id: string }) {
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
@@ -38,6 +49,4 @@ const ProjectClient = ({ id }: ProjectClientProps) => {
       )}
     </div>
   );
-};
-
-export default ProjectClient;
+}

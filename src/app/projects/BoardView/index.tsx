@@ -53,6 +53,11 @@ type TaskColumnProps = {
   setIsModalNewTaskOpen: (isOpen: boolean) => void;
 };
 
+// Define a type for the drop monitor
+type DropMonitor = {
+  isOver: () => boolean;
+};
+
 const TaskColumn = ({
   status,
   tasks,
@@ -62,14 +67,14 @@ const TaskColumn = ({
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "task",
     drop: (item: { id: number }) => moveTask(item.id, status),
-    collect: (monitor: any) => ({
+    collect: (monitor: DropMonitor) => ({
       isOver: !!monitor.isOver(),
     }),
   }));
 
   const tasksCount = tasks.filter((task) => task.status === status).length;
 
-  const statusColor: any = {
+  const statusColor: Record<string, string> = {
     "To Do": "#2563EB",
     "Work In Progress": "#059669",
     "Under Review": "#D97706",
@@ -125,11 +130,16 @@ type TaskProps = {
   task: TaskType;
 };
 
+// Define a type for the drag monitor
+type DragMonitor = {
+  isDragging: () => boolean;
+};
+
 const Task = ({ task }: TaskProps) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: { id: task.id },
-    collect: (monitor: any) => ({
+    collect: (monitor: DragMonitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));

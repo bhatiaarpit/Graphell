@@ -8,11 +8,18 @@ import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
 
-type Props = {
-  params: { id: string };
+// Define proper params type for app router
+type ProjectParams = {
+  id: string;
 };
 
-const Project = ({ params }: Props) => {
+// Define props using the Next.js app router pattern
+type ProjectProps = {
+  params: ProjectParams;
+  searchParams: Record<string, string | string[] | undefined>;
+};
+
+const Project = ({ params, searchParams }: ProjectProps) => {
   const { id } = params;
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);

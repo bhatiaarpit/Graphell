@@ -13,7 +13,7 @@ interface ProjectClientProps {
   id: string;
 }
 
-export function ProjectClient({ id }: ProjectClientProps) {
+function ProjectClient({ id }: ProjectClientProps) {
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
@@ -39,4 +39,9 @@ export function ProjectClient({ id }: ProjectClientProps) {
       )}
     </div>
   );
+}
+
+// Default export for Next.js page
+export default function Page({ params }: { params: { id: string } }) {
+  return <ProjectClient id={params.id} />;
 }

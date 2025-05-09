@@ -8,12 +8,11 @@ import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
 
-type Props = {
-  params: { id: string };
-};
+interface ProjectClientProps {
+  id: string;
+}
 
-const Project = ({ params }: Props) => {
-  const { id } = params;
+const ProjectClient = ({ id }: ProjectClientProps) => {
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
@@ -41,4 +40,4 @@ const Project = ({ params }: Props) => {
   );
 };
 
-export default Project;
+export default ProjectClient;

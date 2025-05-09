@@ -24,19 +24,21 @@ import { PersistGate } from "redux-persist/integration/react";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 
 /* REDUX PERSISTENCE */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 const createNoopStorage = () => {
   return {
-    getItem(_key: any) {
+    getItem(_: string) {
       return Promise.resolve(null);
     },
-    setItem(_key: any, value: any) {
+    setItem(_: string, value: unknown) {
       return Promise.resolve(value);
     },
-    removeItem(_key: any) {
+    removeItem(_: string) {
       return Promise.resolve();
     },
   };
 };
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 const storage =
   typeof window === "undefined"
@@ -80,7 +82,7 @@ export default function StoreProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const storeRef = useRef<AppStore>();
+  const storeRef = useRef<AppStore | null>(null);
   if (!storeRef.current) {
     storeRef.current = makeStore();
     setupListeners(storeRef.current.dispatch);

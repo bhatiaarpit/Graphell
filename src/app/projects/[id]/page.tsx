@@ -1,4 +1,5 @@
 "use client";
+// src/app/projects/[id]/client.tsx
 
 import React, { useState } from "react";
 import ProjectHeader from "@/app/projects/ProjectHeader";
@@ -8,19 +9,11 @@ import Timeline from "../TimelineView";
 import Table from "../TableView";
 import ModalNewTask from "@/components/ModalNewTask";
 
-// Define proper params type for app router
-type ProjectParams = {
+interface ProjectClientProps {
   id: string;
-};
+}
 
-// Define props using the Next.js app router pattern
-type ProjectProps = {
-  params: ProjectParams;
-  searchParams: Record<string, string | string[] | undefined>;
-};
-
-const Project = ({ params }: ProjectProps) => {
-  const { id } = params;
+export function ProjectClient({ id }: ProjectClientProps) {
   const [activeTab, setActiveTab] = useState("Board");
   const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
 
@@ -46,6 +39,4 @@ const Project = ({ params }: ProjectProps) => {
       )}
     </div>
   );
-};
-
-export default Project;
+}
